@@ -23,7 +23,7 @@ const parts = Object.entries(m.features).map(([id, f]) => {
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 ${m.width} ${m.height}" width="${m.width}" height="${m.height}">
 <rect width="100%" height="100%" fill="#cfe5f2"/>
 <path d="${m.layers.land}" fill="#f4efdf"/>
-<image width="${m.width}" height="${m.height}" style="mix-blend-mode:multiply" opacity="0.6" xlink:href="data:image/webp;base64,${relief}"/>
+<image width="${m.width}" height="${m.height}" xlink:href="data:image/webp;base64,${relief}"/>
 <path d="${m.layers.lakes}" fill="#cfe5f2"/>
 <path d="${m.layers.borders}" fill="none" stroke="#888" stroke-width="1"/>
 ${parts.join('\n')}

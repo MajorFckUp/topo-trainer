@@ -95,14 +95,13 @@ mkdirSync(join(ROOT, 'src/data/maps'), { recursive: true });
 writeFileSync(join(ROOT, 'src/data/maps/europe-map.json'), JSON.stringify(map));
 console.log(`europe-map.json: ${Object.keys(features).length} features`);
 
-// Relief raster: world equirectangular GeoTIFF resampled into the conic projection.
+// Relief raster (RGB hypsometric tints + shading): world equirectangular GeoTIFF resampled into the conic projection.
 const tiff = await fromFile(RELIEF_TIF);
 const image = await tiff.getImage();
 const sw = image.getWidth();
 const sh = image.getHeight();
-const rasters = (await image.readRasters({ samples: [0] })) as unknown as ArrayLike<number>[];
-const band = rasters[0];
-const buf = Buffer.alloc(W * H, 255);
+const bands = (await image.readRasters({ samples: [0, 1, 2] })) as unknown as ArrayLike<number>[];
+const buf = Buffer.alloc(W * H * 3, 255);
 for (let y = 0; y < H; y++) {
   for (let x = 0; x < W; x++) {
     const ll = projection.invert?.([x + 0.5, y + 0.5]);
@@ -111,11 +110,15 @@ for (let y = 0; y < H; y++) {
     if (lon < -180 || lon > 180 || lat < -90 || lat > 90) continue;
     const sx = Math.min(sw - 1, Math.max(0, Math.floor(((lon + 180) / 360) * sw)));
     const sy = Math.min(sh - 1, Math.max(0, Math.floor(((90 - lat) / 180) * sh)));
-    buf[y * W + x] = band[sy * sw + sx];
+    const o = (y * W + x) * 3;
+    const si = sy * sw + sx;
+    buf[o] = bands[0][si];
+    buf[o + 1] = bands[1][si];
+    buf[o + 2] = bands[2][si];
   }
 }
 mkdirSync(join(ROOT, 'public/maps'), { recursive: true });
-await sharp(buf, { raw: { width: W, height: H, channels: 1 } })
+await sharp(buf, { raw: { width: W, height: H, channels: 3 } })
   .webp({ quality: 80 })
   .toFile(join(ROOT, 'public/maps/europe-relief.webp'));
 console.log('europe-relief.webp written');

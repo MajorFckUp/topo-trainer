@@ -1,7 +1,7 @@
 .map-svg { display: block; overflow: hidden; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; }
 .map-sea { fill: #cfe6f5; }
 .map-land { fill: #eef0e4; }
-.map-relief { mix-blend-mode: multiply; pointer-events: none; }
+.map-relief { pointer-events: none; }
 .map-lakes { fill: #cfe6f5; pointer-events: none; }
 .map-borders { fill: none; stroke: #9a9a9a; stroke-width: 1; pointer-events: none; }
 

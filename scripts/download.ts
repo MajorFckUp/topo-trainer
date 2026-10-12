@@ -8,8 +8,8 @@ export const VECTORS = join(CACHE, 'vectors');
 export const RELIEF_DIR = join(CACHE, 'relief');
 export const RELIEF_TIF = join(CACHE, 'relief.tif');
 const VECTOR_BASE = 'https://raw.' + 'githubusercontent.com/nvkelso/natural-earth-vector/master/geojson';
-// Verified: HTTP 200 on the Natural Earth S3 bucket (land-only grey shaded relief, 50m).
-const RELIEF_ZIP_URL = 'https://naturalearth.s3.amazonaws.com/50m_raster/GRAY_50M_SR.zip';
+// Verified: HTTP 200 on the Natural Earth S3 bucket (cross-blended hypsometric tints with shaded relief, 50m, public domain).
+const RELIEF_ZIP_URL = 'https://naturalearth.s3.amazonaws.com/50m_raster/HYP_50M_SR.zip';
 
 export const VECTOR_FILES = [
   'ne_50m_land', 'ne_50m_admin_0_countries', 'ne_10m_rivers_lake_centerlines', 'ne_10m_rivers_europe',
