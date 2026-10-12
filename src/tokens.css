@@ -1,0 +1,46 @@
+/* Subset of the SLDS 2 (Salesforce Lightning Design System 2) design tokens this app uses.
+   Values are Salesforce's public tokens; only what is referenced is kept here. */
+:root {
+  --slds-neutral-100: rgb(255, 255, 255);
+  --slds-neutral-95: rgb(243, 243, 243);
+  --slds-neutral-90: rgb(229, 229, 229);
+  --slds-neutral-80: rgb(201, 201, 201);
+  --slds-neutral-50: rgb(117, 117, 117);
+  --slds-neutral-40: rgb(92, 92, 92);
+  --slds-neutral-20: rgb(46, 46, 46);
+
+  --slds-blue-50: rgb(6, 106, 254);
+  --slds-blue-40: rgb(2, 80, 217);
+  --slds-blue-30: rgb(2, 42, 192);
+  --slds-teal-95: rgb(222, 249, 243);
+  --slds-teal-40: rgb(5, 103, 100);
+  --slds-orange-90: rgb(254, 223, 208);
+  --slds-orange-50: rgb(169, 100, 4);
+
+  --slds-color-surface-1: var(--slds-neutral-100);
+  --slds-color-surface-2: var(--slds-neutral-95);
+  --slds-color-text-1: var(--slds-neutral-20);
+  --slds-color-text-2: var(--slds-neutral-40);
+  --slds-color-text-disabled: var(--slds-neutral-50);
+  --slds-color-border-1: var(--slds-neutral-80);
+  --slds-color-border-2: var(--slds-neutral-90);
+  --slds-color-control-border: var(--slds-neutral-40);
+  --slds-color-accent: var(--slds-blue-50);
+  --slds-color-accent-hover: var(--slds-blue-40);
+  --slds-color-accent-active: var(--slds-blue-30);
+  --slds-color-on-accent: var(--slds-neutral-100);
+  --slds-color-accent-container: rgb(214, 230, 255);
+  --slds-color-success: var(--slds-teal-40);
+  --slds-color-warning: var(--slds-orange-50);
+  --slds-color-warning-container: var(--slds-orange-90);
+
+  --slds-radius-s: 8px;
+  --slds-radius-m: 12px;
+  --slds-radius-circle: 9999px;
+
+  --slds-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.07);
+  --slds-shadow-focus: 0 0 0 1px rgb(255, 255, 255), 0 0 0 3px var(--slds-color-accent);
+
+  /* Apple devices get SF Pro; everything else (the Android tablet) gets bundled Inter. */
+  --slds-font-base: -apple-system, BlinkMacSystemFont, 'SF Pro', 'Inter Variable', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}

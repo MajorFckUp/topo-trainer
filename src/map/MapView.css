@@ -33,7 +33,7 @@
 @media (prefers-reduced-motion: reduce) { [data-highlight='wrong-reveal'] > .shape, .highlight-ring[data-highlight='wrong-reveal'] { animation: none; } }
 
 .map-label {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 28px; font-weight: 600; fill: #1a1a1a;
+  font-family: var(--slds-font-base); font-size: 28px; font-weight: 600; fill: #1a1a1a;
   stroke: #fff; stroke-width: 5px; stroke-linejoin: round; paint-order: stroke;
   pointer-events: none;
 }
