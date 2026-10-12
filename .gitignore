@@ -1,0 +1,96 @@
+# ============================================
+# Claude Code
+# ============================================
+# Personal/local settings and notes (not shared with the team)
+.claude/settings.local.json
+CLAUDE.local.md
+.claude/worktrees/
+
+# Committed on purpose (do NOT ignore):
+#   CLAUDE.md
+#   .claude/settings.json
+#   .claude/commands/
+#   .claude/agents/
+#   .claude/skills/
+#   .mcp.json  (make sure it contains no secrets; use env var references)
+
+# ============================================
+# Secrets & credentials
+# ============================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+secrets/
+credentials.json
+service-account*.json
+*.tfvars
+*.tfstate
+*.tfstate.*
+
+# ============================================
+# Project-specific (existing)
+# ============================================
+dev-dist/
+scripts/.cache/
+test-results/
+playwright-report/
+.superpowers/
+
+# Malmberg workbook photos (reference only, copyrighted - do not commit)
+Image*.jpeg
+
+# ============================================
+# OS files
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+
+# ============================================
+# Editors / IDEs
+# ============================================
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+*.swp
+*.swo
+
+# ============================================
+# Dependencies & build output
+# ============================================
+node_modules/
+.pnpm-store/
+.yarn/cache/
+dist/
+build/
+out/
+.next/
+.nuxt/
+coverage/
+*.log
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# ============================================
+# Misc
+# ============================================
+tmp/
+temp/
+*.bak
+*.orig

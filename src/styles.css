@@ -1,0 +1,63 @@
+html,body,#root{height:100%;margin:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#1d2a33;background:#f4f1ea;overflow:hidden}
+button{min-height:48px;font-size:1.1rem;font-family:inherit;border:2px solid #2f5d7c;border-radius:12px;background:#fff;color:#1d2a33;padding:0 20px;cursor:pointer;touch-action:manipulation}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.big{min-height:72px;font-size:1.5rem;font-weight:600}
+button.big:not(.secondary):not(:disabled){background:#2f5d7c;color:#fff}
+.hint{color:#8a4b00;font-size:1.1rem;margin:0}
+
+.home{height:100%;box-sizing:border-box;padding:32px 48px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;gap:24px 48px;align-content:start}
+.home h1{grid-column:1/-1;margin:0;font-size:2.6rem}
+.home-settings{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.check{display:flex;align-items:center;gap:16px;min-height:56px;font-size:1.5rem}
+.check input{width:32px;height:32px;margin:0}
+.home-actions{display:flex;flex-direction:column;gap:16px}
+.fouten{display:flex;flex-direction:column;gap:8px}
+
+.verkennen{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;padding:12px;box-sizing:border-box}
+.verkennen-main{display:flex;flex-direction:column;min-height:0;min-width:0;gap:8px}
+.verkennen-bar{display:flex;align-items:center;gap:16px}
+.verkennen-caption{font-size:2.4rem;font-weight:700;min-height:56px;display:flex;align-items:center}
+.map-area{flex:1;min-height:0;min-width:0;border-radius:12px;overflow:hidden;border:2px solid #2f5d7c;background:#cfe3ee}
+.verkennen-list{overflow-y:auto;min-height:0;padding-right:4px}
+.verkennen-list h2{font-size:1.3rem;margin:12px 0 8px}
+.verkennen-list ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.verkennen-list .item{width:100%;text-align:left}
+.verkennen-list .item.selected{background:#ffd54a;border-color:#8a6d00;font-weight:700}
+.quiz{height:100%;display:flex;flex-direction:column;gap:8px;padding:12px;box-sizing:border-box}
+.quiz-bar{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.quiz-progress{font-size:1.4rem;font-weight:600}
+.prompt{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
+.prompt-bar{display:flex;align-items:center;gap:16px;min-height:72px}
+.prompt-text{font-size:2.2rem}
+.prompt-feedback{font-size:1.6rem;flex:1}
+.prompt-bar button{min-height:56px}
+.name-input{flex:1;min-width:0;min-height:56px;font-size:1.8rem;padding:4px 12px;border:2px solid #2f5d7c;border-radius:8px}
+.name-input.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.name-compare{font-size:1.6rem}
+.name-compare mark{background:#ffd54a;color:inherit;border-radius:4px;padding:0 2px;font-weight:700}
+.prompt-bar button.big{min-height:56px}
+.name-feedback{font-size:1.6rem;min-height:2.4em}
+
+.resultaat{height:100%;box-sizing:border-box;padding:32px 48px;display:flex;flex-direction:column;gap:16px}
+.resultaat h1{margin:0;font-size:2.6rem}
+.resultaat .score{margin:0;font-size:2.4rem;font-weight:700}
+.resultaat-fouten{flex:1;min-height:0;overflow-y:auto}
+.resultaat-fouten h2{margin:0 0 8px;font-size:1.5rem}
+.resultaat-fouten ul{margin:0;padding:0;list-style:none;columns:2;column-gap:32px;font-size:1.4rem}
+.resultaat-fouten li{padding:6px 0;break-inside:avoid}
+.resultaat-actions{display:flex;gap:16px;margin-top:auto}
+
+.voortgang{height:100%;box-sizing:border-box;padding:16px 32px;display:flex;flex-direction:column;gap:12px}
+.voortgang-bar{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.voortgang-bar h1{margin:0;font-size:2rem}
+.voortgang-summary{font-size:1.4rem;font-weight:600;flex:1}
+.voortgang-confirm{display:flex;align-items:center;gap:12px;font-size:1.2rem;font-weight:600}
+.voortgang-list{flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:start}
+.voortgang-list h2{margin:0 0 8px;font-size:1.4rem}
+.voortgang-list ul{margin:0;padding:0;list-style:none}
+.voortgang-list li{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;border-bottom:1px solid #d8d2c4;font-size:1.1rem}
+.voortgang-name{font-weight:600}
+.streaks{font-size:.85rem;color:#5b6770;text-align:right}
+.mastered{color:#1f7a3a;font-size:1.6rem;font-weight:700}

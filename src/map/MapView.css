@@ -1,0 +1,39 @@
+.map-svg { display: block; overflow: hidden; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; }
+.map-sea { fill: #cfe6f5; }
+.map-land { fill: #eef0e4; }
+.map-relief { mix-blend-mode: multiply; pointer-events: none; }
+.map-lakes { fill: #cfe6f5; pointer-events: none; }
+.map-borders { fill: none; stroke: #9a9a9a; stroke-width: 1; pointer-events: none; }
+
+.map-svg .shape { pointer-events: none; stroke-linejoin: round; stroke-linecap: round; }
+
+/* default: unobtrusive, so the child cannot read the answer */
+[data-kind='area'] > .shape { fill: transparent; stroke: rgba(60, 60, 60, 0.12); stroke-width: 2; }
+[data-kind='line'] > .shape { fill: none; stroke: rgba(90, 150, 200, 0.45); stroke-width: 3; }
+
+[data-highlight='target'] > .shape { fill: rgba(255, 140, 0, 0.45); stroke: #ff8c00; stroke-width: 6; }
+[data-highlight='correct'] > .shape { fill: rgba(40, 167, 69, 0.45); stroke: #1e9e45; stroke-width: 6; }
+[data-highlight='wrong'] > .shape { fill: rgba(220, 53, 69, 0.45); stroke: #d6293b; stroke-width: 6; }
+[data-highlight='selected'] > .shape { fill: rgba(30, 110, 230, 0.4); stroke: #1e6ee6; stroke-width: 6; }
+[data-highlight='wrong-reveal'] > .shape {
+  fill: rgba(255, 140, 0, 0.45); stroke: #ff8c00; stroke-width: 6;
+  animation: map-pulse 1s ease-in-out infinite;
+}
+[data-kind='line'][data-highlight]:not([data-highlight='none']) > .shape { fill: none; stroke-width: 8; }
+
+/* ring around highlighted features too small to see (Gibraltar, Schelde, Vogezen ...) */
+.highlight-ring { fill: none; stroke-width: 6; pointer-events: none; }
+.highlight-ring[data-highlight='target'], .highlight-ring[data-highlight='wrong-reveal'] { stroke: #ff8c00; }
+.highlight-ring[data-highlight='correct'] { stroke: #1e9e45; }
+.highlight-ring[data-highlight='wrong'] { stroke: #d6293b; }
+.highlight-ring[data-highlight='selected'] { stroke: #1e6ee6; }
+.highlight-ring[data-highlight='wrong-reveal'] { animation: map-pulse 1s ease-in-out infinite; }
+
+@keyframes map-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { [data-highlight='wrong-reveal'] > .shape, .highlight-ring[data-highlight='wrong-reveal'] { animation: none; } }
+
+.map-label {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 28px; font-weight: 600; fill: #1a1a1a;
+  stroke: #fff; stroke-width: 5px; stroke-linejoin: round; paint-order: stroke;
+  pointer-events: none;
+}

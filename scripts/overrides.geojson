@@ -1,0 +1,9 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type": "Feature", "properties": { "id": "ardennen" }, "geometry": { "type": "Polygon", "coordinates": [[[4.6, 49.8], [5.5, 50.5], [6.4, 50.3], [6.4, 49.6], [5.4, 49.5], [4.6, 49.8]]] } },
+    { "type": "Feature", "properties": { "id": "vogezen" }, "geometry": { "type": "Polygon", "coordinates": [[[6.7, 47.8], [7.15, 47.8], [7.5, 48.5], [7.4, 49.0], [7.0, 48.9], [6.9, 48.3], [6.7, 47.8]]] } },
+    { "type": "Feature", "properties": { "id": "schotse-hooglanden" }, "geometry": { "type": "Polygon", "coordinates": [[[-5.8, 56.4], [-4.2, 56.5], [-3.3, 57.2], [-3.6, 57.9], [-4.4, 58.4], [-5.3, 58.2], [-5.9, 57.4], [-5.8, 56.4]]] } },
+    { "type": "Feature", "properties": { "id": "noordelijke-ijszee" }, "geometry": { "type": "Polygon", "coordinates": [[[-10, 72], [70, 72], [70, 80], [-10, 80], [-10, 72]]] } }
+  ]
+}
