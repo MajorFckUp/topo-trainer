@@ -7,7 +7,7 @@ import { emptyProgress, recordAnswer } from '../logic/progress';
 import type { Progress } from '../logic/progress';
 import type { Settings, TopoList } from '../data/types';
 
-const list: TopoList = { id: 'fx', title: 'Fixture', source: 'test', items: fixtureItems };
+const list: TopoList = { id: 'fx', title: 'Fixture', source: 'test', mapId: 'fx', items: fixtureItems };
 function setup(over: { settings?: Settings; progress?: Progress } = {}) {
   const props = {
     list,
@@ -16,6 +16,7 @@ function setup(over: { settings?: Settings; progress?: Progress } = {}) {
     progress: over.progress ?? emptyProgress(),
     onStart: vi.fn(),
     onVoortgang: vi.fn(),
+    onAnderOnderwerp: vi.fn(),
   };
   render(<Home {...props} />);
   return props;

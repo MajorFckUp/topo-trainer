@@ -1,6 +1,7 @@
 import europa from './europa-grz.json';
+import centraalEuropa from './centraal-europa.json';
 import type { TopoList } from '../types';
-export const lists: TopoList[] = [europa as TopoList];
+export const lists: TopoList[] = [europa as TopoList, centraalEuropa as TopoList];
 export const defaultList: TopoList = lists[0];
 export function getList(id: string): TopoList {
   const l = lists.find(x => x.id === id);

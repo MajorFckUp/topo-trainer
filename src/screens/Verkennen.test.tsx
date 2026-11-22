@@ -4,7 +4,7 @@ import Verkennen from './Verkennen';
 import { fixtureMap, fixtureItems } from '../test/fixtureMap';
 import type { TopoList } from '../data/types';
 
-const list: TopoList = { id: 'fx', title: 'Fixture', source: 'test', items: fixtureItems };
+const list: TopoList = { id: 'fx', title: 'Fixture', source: 'test', mapId: 'fx', items: fixtureItems };
 const setup = (items = fixtureItems) => {
   const onBack = vi.fn();
   render(<Verkennen list={list} items={items} map={fixtureMap} onBack={onBack} />);

@@ -1,6 +1,6 @@
-import type { EuropeMap, TopoItem } from '../data/types';
+import type { TopoMap, TopoItem } from '../data/types';
 
-export const fixtureMap: EuropeMap = {
+export const fixtureMap: TopoMap = {
   width: 200,
   height: 140,
   layers: {

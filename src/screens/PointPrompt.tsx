@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import type { EuropeMap, Outcome, TopoItem } from '../data/types';
+import type { TopoMap, Outcome, TopoItem } from '../data/types';
 import MapView from '../map/MapView';
 import type { Highlight } from '../map/MapView';
 
-export interface PromptProps { item: TopoItem; items: TopoItem[]; map: EuropeMap; onDone: (outcome: Outcome) => void }
+export interface PromptProps { item: TopoItem; items: TopoItem[]; map: TopoMap; onDone: (outcome: Outcome) => void }
 
 const CORRECT_DELAY_MS = 800;
 

@@ -1,11 +1,11 @@
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
-import { playNameRound, playPointRound, realTap, selectOnly, start, tap } from './helpers';
+import { openOnderwerp, playNameRound, playPointRound, realTap, selectOnly, start, tap } from './helpers';
 
 const RIVER_IDS = ['donau', 'maas', 'po', 'rhone', 'rijn', 'schelde', 'seine', 'theems', 'volga'];
 
 async function homeRivieren(page: Page) {
-  await page.goto('/');
+  await openOnderwerp(page);
   await selectOnly(page, 'Rivieren');
 }
 
@@ -60,6 +60,7 @@ test('Mastery: 2x Aanwijzen + 2x Benoemen perfect, blijft na reload; Annuleer en
   await expect(page.getByText('9 van 28 geleerd')).toBeVisible();
 
   await page.reload();
+  await page.getByRole('button', { name: /Gebergten, rivieren en zeeën in Europa/ }).click(); // the app reopens on the topic screen
   await page.getByRole('button', { name: 'Voortgang' }).click();
   for (const id of RIVER_IDS) await expect(page.getByTestId(`mastered-${id}`)).toBeVisible();
   await expect(page.getByText('9 van 28 geleerd')).toBeVisible();
@@ -108,7 +109,7 @@ test('Benoemen: fout antwoord toont het goede antwoord, overtypen, 1 fout in res
 });
 
 test('Verkennen met echte coordinaten: Ardennen, Maas en Alpen zijn aan te tikken (alle categorieen)', async ({ page }) => {
-  await page.goto('/');
+  await openOnderwerp(page);
   await start(page, 'Verkennen');
   for (const [id, name] of [['ardennen', 'Ardennen'], ['maas', 'Maas'], ['alpen', 'Alpen']]) {
     await realTap(page, id);
@@ -119,7 +120,7 @@ test('Verkennen met echte coordinaten: Ardennen, Maas en Alpen zijn aan te tikke
 
 test('Aanwijzen met echte coordinaten: elk item is met een echte tik op zijn zichtbare vorm te raken (standaardinstellingen)', async ({ page }) => {
   test.setTimeout(90_000);
-  await page.goto('/');
+  await openOnderwerp(page);
   await start(page, 'Aanwijzen');
   for (;;) {
     const prompt = page.getByTestId('prompt');
@@ -134,4 +135,42 @@ test('Aanwijzen met echte coordinaten: elk item is met een echte tik op zijn zic
   }
   await expect(page.getByTestId('score')).toContainText('goed');
   await expect(page.getByTestId('score')).toHaveText(/^(\d+) van \1 goed$/);
+});
+
+test('Centraal-Europa: steden en landen zijn met een echte tik aan te wijzen (inclusief plus)', async ({ page }) => {
+  test.setTimeout(120_000);
+  await openOnderwerp(page, 'centraal-europa');
+  await page.getByLabel('Plus', { exact: true }).check();
+  await start(page, 'Aanwijzen');
+  let n = 0;
+  for (;;) {
+    const prompt = page.getByTestId('prompt');
+    const resultaat = page.getByTestId('resultaat');
+    await expect(prompt.or(resultaat)).toBeVisible();
+    if (await resultaat.isVisible()) break;
+    const old = await prompt.elementHandle();
+    const id = (await prompt.getAttribute('data-item-id'))!;
+    await realTap(page, id);
+    await expect(page.getByTestId(`feature-${id}`)).toHaveAttribute('data-highlight', 'correct');
+    await page.waitForFunction((el) => !el!.isConnected, old, { timeout: 10_000 });
+    n++;
+  }
+  expect(n).toBe(28);
+  await expect(page.getByTestId('score')).toHaveText('28 van 28 goed');
+});
+
+test('Centraal-Europa Verkennen: een stad wint van het land eronder', async ({ page }) => {
+  await openOnderwerp(page, 'centraal-europa');
+  await start(page, 'Verkennen');
+  for (const [id, name] of [['brussel', 'Brussel'], ['parijs', 'Parijs'], ['luxemburg-stad', 'Luxemburg (stad)']]) {
+    await realTap(page, id);
+    await expect(page.getByTestId('verkennen-caption')).toHaveText(name);
+    await expect(page.getByTestId(`feature-${id}`)).toHaveAttribute('data-highlight', 'selected');
+  }
+});
+
+test('Ander onderwerp brengt je terug naar de keuze', async ({ page }) => {
+  await openOnderwerp(page, 'centraal-europa');
+  await page.getByRole('button', { name: 'Ander onderwerp' }).click();
+  await expect(page.getByRole('button', { name: /Gebergten, rivieren en zeeën in Europa/ })).toBeVisible();
 });

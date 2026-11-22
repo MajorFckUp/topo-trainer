@@ -5,11 +5,17 @@
 .map-lakes { fill: #cfe6f5; pointer-events: none; }
 .map-borders { fill: none; stroke: #9a9a9a; stroke-width: 1; pointer-events: none; }
 
+/* countries are the topic on this map: clear borders, lighter relief so they stay readable */
+.map-svg[data-map='centraal-europa'] .map-borders { stroke: #4a4a4a; stroke-width: 2; }
+.map-svg[data-map='centraal-europa'] .map-relief { opacity: 0.45; }
+
 .map-svg .shape { pointer-events: none; stroke-linejoin: round; stroke-linecap: round; }
 
 /* default: unobtrusive, so the child cannot read the answer */
 [data-kind='area'] > .shape { fill: transparent; stroke: rgba(60, 60, 60, 0.12); stroke-width: 2; }
 [data-kind='line'] > .shape { fill: none; stroke: rgba(90, 150, 200, 0.45); stroke-width: 3; }
+[data-kind='point'] > .shape { fill: #3a3a3a; stroke: #fff; stroke-width: 2; }
+[data-category='gebied'] > .shape { stroke: rgba(60, 60, 60, 0.35); stroke-dasharray: 10 6; }
 
 [data-highlight='target'] > .shape { fill: rgba(255, 140, 0, 0.45); stroke: #ff8c00; stroke-width: 6; }
 [data-highlight='correct'] > .shape { fill: rgba(40, 167, 69, 0.45); stroke: #1e9e45; stroke-width: 6; }
@@ -28,6 +34,12 @@
 .highlight-ring[data-highlight='wrong'] { stroke: #d6293b; }
 .highlight-ring[data-highlight='selected'] { stroke: #1e6ee6; }
 .highlight-ring[data-highlight='wrong-reveal'] { animation: map-pulse 1s ease-in-out infinite; }
+
+/* city dots: solid colours instead of translucent fills */
+[data-kind='point'][data-highlight='target'] > .shape, [data-kind='point'][data-highlight='wrong-reveal'] > .shape { fill: #ff8c00; stroke: #fff; stroke-width: 3; }
+[data-kind='point'][data-highlight='correct'] > .shape { fill: #1e9e45; stroke: #fff; stroke-width: 3; }
+[data-kind='point'][data-highlight='wrong'] > .shape { fill: #d6293b; stroke: #fff; stroke-width: 3; }
+[data-kind='point'][data-highlight='selected'] > .shape { fill: #1e6ee6; stroke: #fff; stroke-width: 3; }
 
 @keyframes map-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 @media (prefers-reduced-motion: reduce) { [data-highlight='wrong-reveal'] > .shape, .highlight-ring[data-highlight='wrong-reveal'] { animation: none; } }

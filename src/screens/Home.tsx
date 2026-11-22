@@ -1,4 +1,5 @@
 import type { Category, Settings, TopoList } from '../data/types';
+import { categoriesOf } from '../data/categories';
 import type { Progress } from '../logic/progress';
 import { weakEntries } from '../logic/progress';
 import { selectItems } from '../logic/selection';
@@ -11,15 +12,11 @@ export interface HomeProps {
   progress: Progress;
   onStart: (k: StartKind) => void;
   onVoortgang: () => void;
+  onAnderOnderwerp: () => void;
 }
 
-const CATEGORIES: { id: Category; label: string }[] = [
-  { id: 'gebergte', label: 'Gebergten' },
-  { id: 'rivier', label: 'Rivieren' },
-  { id: 'zee', label: 'Zeeën en zeestraten' },
-];
-
-export default function Home({ list, settings, onSettings, progress, onStart, onVoortgang }: HomeProps) {
+export default function Home({ list, settings, onSettings, progress, onStart, onVoortgang, onAnderOnderwerp }: HomeProps) {
+  const CATEGORIES = categoriesOf(list);
   const items = selectItems(list, settings);
   const empty = items.length === 0;
   const noWeak = weakEntries(progress, list, items).length === 0;
@@ -34,6 +31,7 @@ export default function Home({ list, settings, onSettings, progress, onStart, on
   return (
     <main className="home">
       <h1>Topo Trainer</h1>
+      <p className="home-subtitle">{list.title}</p>
       <section className="home-settings" aria-label="Wat wil je oefenen?">
         {CATEGORIES.map((c) => (
           <label key={c.id} className="check">
@@ -56,6 +54,7 @@ export default function Home({ list, settings, onSettings, progress, onStart, on
           {noWeak && !empty && <span className="hint">Alles geleerd — goed gedaan!</span>}
         </div>
         <button className="big secondary" onClick={onVoortgang}>Voortgang</button>
+        <button className="big secondary" onClick={onAnderOnderwerp}>Ander onderwerp</button>
       </section>
     </main>
   );
