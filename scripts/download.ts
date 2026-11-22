@@ -14,6 +14,7 @@ const RELIEF_ZIP_URL = 'https://naturalearth.s3.amazonaws.com/50m_raster/HYP_50M
 export const VECTOR_FILES = [
   'ne_50m_land', 'ne_50m_admin_0_countries', 'ne_10m_rivers_lake_centerlines', 'ne_10m_rivers_europe',
   'ne_10m_geography_marine_polys', 'ne_10m_lakes', 'ne_10m_geography_regions_polys',
+  'ne_10m_land', 'ne_10m_admin_0_countries', 'ne_10m_admin_1_states_provinces',
 ];
 
 export const vectorPath = (name: string) => join(VECTORS, `${name}.geojson`);

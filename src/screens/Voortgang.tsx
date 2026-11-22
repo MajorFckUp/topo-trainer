@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import type { Category, TopoList } from '../data/types';
+import type { TopoList } from '../data/types';
+import { categoriesOf } from '../data/categories';
 import type { Progress } from '../logic/progress';
 import { isMastered, MASTERY_STREAK, streaksOf } from '../logic/progress';
 
@@ -10,14 +11,9 @@ export interface VoortgangProps {
   onBack: () => void;
 }
 
-const CATEGORIES: { id: Category; label: string }[] = [
-  { id: 'gebergte', label: 'Gebergten' },
-  { id: 'rivier', label: 'Rivieren' },
-  { id: 'zee', label: 'Zeeën en zeestraten' },
-];
-
 export default function Voortgang({ list, progress, onReset, onBack }: VoortgangProps) {
   const [confirming, setConfirming] = useState(false);
+  const CATEGORIES = categoriesOf(list);
   const learned = list.items.filter((i) => isMastered(progress, list.id, i.id)).length;
 
   return (

@@ -1,7 +1,7 @@
 export interface HitCandidate {
   id: string;
-  kind: 'area' | 'line';
-  /** the visible geometry actually contains the tap point (areas only) */
+  kind: 'area' | 'line' | 'point';
+  /** the visible geometry actually contains the tap point (areas and points) */
   contains: boolean;
   /** distance in SVG units from the tap point to the visible outline/line */
   dist: number;
@@ -9,15 +9,19 @@ export interface HitCandidate {
 
 /** A line closer than this (SVG units, ~ its visible width) to the finger beats an area underneath it. */
 export const LINE_PRIORITY = 6;
+/** A city dot closer than this to the finger beats the country or region underneath it. */
+export const POINT_PRIORITY = 14;
 
 /**
  * Ranks every hit element under the finger, best first. `candidates` must be in DOM top-to-bottom
  * order (as `elementsFromPoint` returns them); ties keep that order.
- * 1. a line right under the finger, 2. an area that really contains the point, 3. the rest by distance.
+ * 1. a line or city dot right under the finger, 2. an area that really contains the point, 3. the rest by distance.
  */
 export function rankCandidates(candidates: HitCandidate[]): string[] {
   const tier = (c: HitCandidate) =>
-    c.kind === 'line' && c.dist <= LINE_PRIORITY ? 0 : c.kind === 'area' && c.contains ? 1 : 2;
+    (c.kind === 'line' && c.dist <= LINE_PRIORITY) || (c.kind === 'point' && c.dist <= POINT_PRIORITY)
+      ? 0
+      : c.kind === 'area' && c.contains ? 1 : 2;
   return candidates
     .map((c, i) => ({ c, i }))
     .sort((a, b) => tier(a.c) - tier(b.c) || (tier(a.c) === 1 ? 0 : a.c.dist - b.c.dist) || a.i - b.i)

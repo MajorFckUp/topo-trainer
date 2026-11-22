@@ -1,16 +1,12 @@
 import { useState } from 'react';
-import type { Category, EuropeMap, TopoItem, TopoList } from '../data/types';
+import type { TopoMap, TopoItem, TopoList } from '../data/types';
+import { categoriesOf } from '../data/categories';
 import MapView from '../map/MapView';
 
-export interface VerkennenProps { list: TopoList; items: TopoItem[]; map: EuropeMap; onBack: () => void }
+export interface VerkennenProps { list: TopoList; items: TopoItem[]; map: TopoMap; onBack: () => void }
 
-const GROUPS: { id: Category; label: string }[] = [
-  { id: 'gebergte', label: 'Gebergten' },
-  { id: 'rivier', label: 'Rivieren' },
-  { id: 'zee', label: 'Zeeën en zeestraten' },
-];
-
-export default function Verkennen({ items, map, onBack }: VerkennenProps) {
+export default function Verkennen({ list, items, map, onBack }: VerkennenProps) {
+  const GROUPS = categoriesOf(list);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = items.find((i) => i.id === selectedId) ?? null;
   const highlights = selected ? { [selected.id]: 'selected' as const } : {};

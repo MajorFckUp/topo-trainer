@@ -7,7 +7,7 @@ import type { QuizEntry, TopoList } from '../data/types';
 beforeEach(() => vi.useFakeTimers());
 afterEach(() => vi.useRealTimers());
 
-const list: TopoList = { id: 'l', title: 'L', source: 's', items: fixtureItems };
+const list: TopoList = { id: 'l', title: 'L', source: 's', mapId: 'fx', items: fixtureItems };
 const entries = (...ids: string[]): QuizEntry[] => ids.map((itemId) => ({ itemId, mode: 'aanwijzen' }));
 
 function setup(e: QuizEntry[]) {

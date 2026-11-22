@@ -124,3 +124,40 @@ test('pathBox: afmetingen van absolute en relatieve paden', () => {
   expect(pathBox('M10 20L30 5L25 40Z')).toEqual({ w: 20, h: 35 });
   expect(pathBox('M10 10h20v-5z')).toEqual({ w: 20, h: 5 });
 });
+
+describe('steden (kind: point)', () => {
+  const city: TopoItem = { id: 'parijs', name: 'Parijs', category: 'stad', plus: false, aliases: [], mapFeatureId: 'parijs' };
+  const country: TopoItem = { id: 'frankrijk', name: 'Frankrijk', category: 'land', plus: false, aliases: [], mapFeatureId: 'frankrijk' };
+  const map = {
+    ...fixtureMap,
+    features: {
+      parijs: { path: 'M100,70m0,7a7,7 0 1,1 0,-14a7,7 0 1,1 0,14z', kind: 'point' as const, labelPoint: [100, 70] as [number, number] },
+      frankrijk: { path: 'M20 20H180V120H20Z', kind: 'area' as const, labelPoint: [100, 60] as [number, number] },
+    },
+  };
+
+  test('een stad krijgt een cirkelvormige tikzone op het labelpunt', () => {
+    render(<MapView map={map} items={[city, country]} />);
+    const hit = screen.getByTestId('hit-parijs');
+    expect(hit.tagName.toLowerCase()).toBe('circle');
+    expect(hit).toHaveAttribute('cx', '100'); expect(hit).toHaveAttribute('cy', '70');
+    expect(screen.getByTestId('feature-parijs')).toHaveAttribute('data-kind', 'point');
+  });
+
+  test('een stad ligt boven het land in de tekenvolgorde en tikken geeft de stad terug', () => {
+    const onItemTap = vi.fn();
+    render(<MapView map={map} items={[city, country]} onItemTap={onItemTap} />);
+    const ids = screen.getAllByTestId(/^feature-/).map((g) => g.getAttribute('data-testid'));
+    expect(ids).toEqual(['feature-frankrijk', 'feature-parijs']);
+    fireEvent.click(screen.getByTestId('hit-parijs'));
+    expect(onItemTap).toHaveBeenCalledWith('parijs', ['parijs']);
+  });
+
+  test('het label van een stad staat rechts van de stip', () => {
+    render(<MapView map={map} items={[city, country]} showLabels />);
+    const label = screen.getByTestId('label-parijs');
+    expect(Number(label.getAttribute('x'))).toBeGreaterThan(100);
+    expect(label).toHaveAttribute('text-anchor', 'start');
+    expect(screen.getByTestId('label-frankrijk')).toHaveAttribute('text-anchor', 'middle');
+  });
+});

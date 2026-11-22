@@ -1,7 +1,7 @@
 import { useId, useMemo, useRef } from 'react';
 import type { PointerEvent, MouseEvent } from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
-import type { EuropeMap, TopoItem } from '../data/types';
+import type { TopoMap, TopoItem } from '../data/types';
 import { orderItems } from './order';
 import { pathBox } from './pathBox';
 import { distanceToPath, rankCandidates } from './hit';
@@ -10,7 +10,7 @@ import './MapView.css';
 
 export type Highlight = 'target' | 'correct' | 'wrong' | 'wrong-reveal' | 'selected';
 export interface MapViewProps {
-  map: EuropeMap;
+  map: TopoMap;
   items: TopoItem[];
   showLabels?: boolean;
   highlights?: Record<string, Highlight>;
@@ -22,6 +22,9 @@ export interface MapViewProps {
 /** Lines get a narrower hit band so a river does not blanket its neighbours; areas keep a generous one. */
 const HIT_STROKE_AREA = 56;
 const HIT_STROKE_LINE = 32;
+/** Tap radius around a city dot (SVG units). A real circle: a very wide stroke on a tiny path leaves a hole in Chrome's hit-testing. */
+const HIT_RADIUS_POINT = 36;
+const POINT_LABEL_DX = 14;
 const TAP_SLOP = 8;
 /** Highlighted features smaller than this (SVG units) also get a ring so a child can see them. */
 const SMALL_FEATURE = 40;
@@ -40,11 +43,12 @@ function candidatesAt(e: MouseEvent, clickedId: string): string[] {
   const ranked: HitCandidate[] = hits.map((hit) => {
     const g = hit.parentElement;
     const shape = g?.querySelector<SVGGeometryElement>('.shape');
-    const kind = g?.getAttribute('data-kind') === 'line' ? 'line' : 'area';
+    const kindAttr = g?.getAttribute('data-kind');
+    const kind = kindAttr === 'line' ? 'line' : kindAttr === 'point' ? 'point' : 'area';
     let contains = false;
     let dist = Infinity;
     if (point && shape && typeof shape.isPointInFill === 'function') {
-      contains = kind === 'area' && shape.isPointInFill(point);
+      contains = kind !== 'line' && shape.isPointInFill(point);
       dist = contains ? 0 : distanceToPath(shape, point.x, point.y);
     }
     return { id: hit.getAttribute('data-testid')!.slice('hit-'.length), kind, contains, dist };
@@ -59,7 +63,7 @@ export default function MapView({
   showLabels = false,
   highlights = {},
   onItemTap,
-  reliefUrl = `${import.meta.env.BASE_URL}maps/europe-relief.webp`,
+  reliefUrl = map.reliefUrl ?? `${import.meta.env.BASE_URL}maps/europe-relief.webp`,
 }: MapViewProps) {
   const uid = useId().replace(/[^A-Za-z0-9_-]/g, '');
   const clipId = `nonland-${uid}`;
@@ -104,6 +108,7 @@ export default function MapView({
       >
         <svg
           data-testid="map-svg"
+          data-map={map.id}
           className="map-svg"
           viewBox={`0 0 ${width} ${height}`}
           onPointerDown={onPointerDown}
@@ -139,6 +144,17 @@ export default function MapView({
                 clipPath={item.category === 'zee' ? `url(#${clipId})` : undefined}
               >
                 <path d={f.path} className="shape" />
+{f.kind === 'point' ? (
+                  <circle
+                    data-testid={`hit-${item.id}`}
+                    cx={f.labelPoint[0]}
+                    cy={f.labelPoint[1]}
+                    r={HIT_RADIUS_POINT}
+                    fill="transparent"
+                    pointerEvents="all"
+                    onClick={(e) => tap(e, item.id)}
+                  />
+                ) : (
                 <path
                   data-testid={`hit-${item.id}`}
                   d={f.path}
@@ -150,6 +166,7 @@ export default function MapView({
                   pointerEvents={isLine ? 'stroke' : 'all'}
                   onClick={(e) => tap(e, item.id)}
                 />
+                )}
               </g>
             );
           })}
@@ -178,9 +195,10 @@ export default function MapView({
                   key={item.id}
                   data-testid={`label-${item.id}`}
                   className="map-label"
-                  x={f.labelPoint[0]}
+                  x={f.kind === 'point' ? f.labelPoint[0] + POINT_LABEL_DX : f.labelPoint[0]}
                   y={f.labelPoint[1]}
-                  textAnchor="middle"
+                  textAnchor={f.kind === 'point' ? 'start' : 'middle'}
+                  dominantBaseline={f.kind === 'point' ? 'central' : undefined}
                 >
                   {item.name}
                 </text>

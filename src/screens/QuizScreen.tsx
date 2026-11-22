@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { EuropeMap, Outcome, QuizEntry, TopoItem, TopoList } from '../data/types';
+import type { TopoMap, Outcome, QuizEntry, TopoItem, TopoList } from '../data/types';
 import { createRound, current, hasMistake, isDone, resolve, summarize } from '../logic/quiz';
 import type { Summary } from '../logic/quiz';
 import PointPrompt from './PointPrompt';
@@ -9,7 +9,7 @@ export interface QuizScreenProps {
   list: TopoList;
   entries: QuizEntry[];
   items: TopoItem[];
-  map: EuropeMap;
+  map: TopoMap;
   onRecord: (entry: QuizEntry, outcome: Outcome) => void;
   onFinish: (summary: Summary) => void;
   onQuit: () => void;

@@ -10,6 +10,18 @@ const NAMES: Record<string, string> = Object.fromEntries(list.items.map((i) => [
 const RIVERS = list.items.filter((i) => i.category === 'rivier').map((i) => i.id);
 const CATEGORY_LABELS = ['Gebergten', 'Rivieren', 'Zeeën en zeestraten'];
 
+export type Onderwerp = 'europa' | 'centraal-europa';
+const ONDERWERP_TITLES: Record<Onderwerp, RegExp> = {
+  europa: /Gebergten, rivieren en zeeën in Europa/,
+  'centraal-europa': /Centraal-Europa/,
+};
+
+/** Opens the app and picks a topic on the start screen. */
+export async function openOnderwerp(page: Page, onderwerp: Onderwerp = 'europa') {
+  await page.goto('/');
+  await page.getByRole('button', { name: ONDERWERP_TITLES[onderwerp] }).click();
+}
+
 export const nameOf = (id: string) => NAMES[id];
 
 export async function selectOnly(page: Page, label: string) {

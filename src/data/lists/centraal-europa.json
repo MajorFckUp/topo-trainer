@@ -1,0 +1,242 @@
+{
+  "id": "centraal-europa",
+  "title": "Centraal-Europa: landen, steden en gebieden",
+  "source": "Meander Topografie groep 7, p. 28–29 (Centraal-Europa)",
+  "mapId": "centraal-europa",
+  "items": [
+    {
+      "id": "andorra",
+      "name": "Andorra",
+      "category": "land",
+      "plus": true,
+      "aliases": [],
+      "mapFeatureId": "andorra"
+    },
+    {
+      "id": "belgie",
+      "name": "België",
+      "category": "land",
+      "plus": false,
+      "aliases": [
+        "Belgie"
+      ],
+      "mapFeatureId": "belgie"
+    },
+    {
+      "id": "duitsland",
+      "name": "Duitsland",
+      "category": "land",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "duitsland"
+    },
+    {
+      "id": "frankrijk",
+      "name": "Frankrijk",
+      "category": "land",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "frankrijk"
+    },
+    {
+      "id": "liechtenstein",
+      "name": "Liechtenstein",
+      "category": "land",
+      "plus": true,
+      "aliases": [],
+      "mapFeatureId": "liechtenstein"
+    },
+    {
+      "id": "luxemburg-land",
+      "name": "Luxemburg (land)",
+      "category": "land",
+      "plus": false,
+      "aliases": [
+        "Luxemburg"
+      ],
+      "mapFeatureId": "luxemburg-land"
+    },
+    {
+      "id": "monaco",
+      "name": "Monaco",
+      "category": "land",
+      "plus": true,
+      "aliases": [],
+      "mapFeatureId": "monaco"
+    },
+    {
+      "id": "oostenrijk",
+      "name": "Oostenrijk",
+      "category": "land",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "oostenrijk"
+    },
+    {
+      "id": "zwitserland",
+      "name": "Zwitserland",
+      "category": "land",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "zwitserland"
+    },
+    {
+      "id": "antwerpen",
+      "name": "Antwerpen",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "antwerpen"
+    },
+    {
+      "id": "berlijn",
+      "name": "Berlijn",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "berlijn"
+    },
+    {
+      "id": "bern",
+      "name": "Bern",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "bern"
+    },
+    {
+      "id": "bordeaux",
+      "name": "Bordeaux",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "bordeaux"
+    },
+    {
+      "id": "brussel",
+      "name": "Brussel",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "brussel"
+    },
+    {
+      "id": "geneve",
+      "name": "Genève",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "geneve"
+    },
+    {
+      "id": "hamburg",
+      "name": "Hamburg",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "hamburg"
+    },
+    {
+      "id": "keulen",
+      "name": "Keulen",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "keulen"
+    },
+    {
+      "id": "luxemburg-stad",
+      "name": "Luxemburg (stad)",
+      "category": "stad",
+      "plus": false,
+      "aliases": [
+        "Luxemburg"
+      ],
+      "mapFeatureId": "luxemburg-stad"
+    },
+    {
+      "id": "lyon",
+      "name": "Lyon",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "lyon"
+    },
+    {
+      "id": "marseille",
+      "name": "Marseille",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "marseille"
+    },
+    {
+      "id": "munchen",
+      "name": "München",
+      "category": "stad",
+      "plus": false,
+      "aliases": [
+        "Munchen"
+      ],
+      "mapFeatureId": "munchen"
+    },
+    {
+      "id": "nice",
+      "name": "Nice",
+      "category": "stad",
+      "plus": true,
+      "aliases": [],
+      "mapFeatureId": "nice"
+    },
+    {
+      "id": "parijs",
+      "name": "Parijs",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "parijs"
+    },
+    {
+      "id": "straatsburg",
+      "name": "Straatsburg",
+      "category": "stad",
+      "plus": true,
+      "aliases": [],
+      "mapFeatureId": "straatsburg"
+    },
+    {
+      "id": "wenen",
+      "name": "Wenen",
+      "category": "stad",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "wenen"
+    },
+    {
+      "id": "ruhrgebied",
+      "name": "Ruhrgebied",
+      "category": "gebied",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "ruhrgebied"
+    },
+    {
+      "id": "vlaanderen",
+      "name": "Vlaanderen",
+      "category": "gebied",
+      "plus": false,
+      "aliases": [],
+      "mapFeatureId": "vlaanderen"
+    },
+    {
+      "id": "wallonie",
+      "name": "Wallonië",
+      "category": "gebied",
+      "plus": false,
+      "aliases": [
+        "Wallonie"
+      ],
+      "mapFeatureId": "wallonie"
+    }
+  ]
+}

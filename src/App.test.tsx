@@ -2,16 +2,47 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import App from './App';
-import { defaultList } from './data/lists';
+import { defaultList, lists } from './data/lists';
 import { defaultSettings, selectItems } from './logic/selection';
 import { emptyProgress, recordAnswer, weakEntries } from './logic/progress';
 
 beforeEach(() => localStorage.clear());
 
-test('toont de titel', () => { render(<App />); expect(screen.getByRole('heading', { name: /topo trainer/i })).toBeInTheDocument(); });
+// fireEvent (not userEvent) so it also works under fake timers
+function renderApp() {
+  render(<App />);
+  fireEvent.click(screen.getByRole('button', { name: new RegExp(defaultList.title) }));
+}
+
+test('opent op het onderwerpscherm met alle onderwerpen', () => {
+  render(<App />);
+  expect(screen.getByRole('heading', { name: /topo trainer/i })).toBeInTheDocument();
+  for (const l of lists) expect(screen.getByRole('button', { name: new RegExp(l.title) })).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Verkennen' })).toBeNull();
+});
+
+test('onderwerp kiezen opent Home met de categorieën van dat onderwerp; Ander onderwerp keert terug', async () => {
+  render(<App />);
+  await userEvent.click(screen.getByRole('button', { name: /Centraal-Europa/ }));
+  for (const n of ['Landen', 'Steden', 'Gebieden', 'Plus']) expect(screen.getByRole('checkbox', { name: n })).toBeInTheDocument();
+  expect(screen.queryByRole('checkbox', { name: 'Rivieren' })).toBeNull();
+  await userEvent.click(screen.getByRole('button', { name: 'Ander onderwerp' }));
+  await userEvent.click(screen.getByRole('button', { name: /Gebergten, rivieren/ }));
+  expect(screen.getByRole('checkbox', { name: 'Rivieren' })).toBeChecked();
+  expect(screen.queryByRole('checkbox', { name: 'Steden' })).toBeNull();
+});
+
+test('laatst gekozen onderwerp wordt onthouden maar niet automatisch geopend', async () => {
+  const { unmount } = render(<App />);
+  await userEvent.click(screen.getByRole('button', { name: /Centraal-Europa/ }));
+  unmount();
+  render(<App />);
+  expect(screen.queryByRole('button', { name: 'Verkennen' })).toBeNull();
+  expect(screen.getByRole('button', { name: /Centraal-Europa/ })).toHaveClass('laatste');
+});
 
 test('Verkennen opent, Terug keert terug naar Home', async () => {
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Verkennen' }));
   expect(screen.queryByRole('heading', { name: /topo trainer/i })).toBeNull();
   await userEvent.click(screen.getByRole('button', { name: 'Terug' }));
@@ -19,7 +50,7 @@ test('Verkennen opent, Terug keert terug naar Home', async () => {
 });
 
 test('instellingen blijven bewaard na terugkeren', async () => {
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('checkbox', { name: 'Plus' }));
   await userEvent.click(screen.getByRole('checkbox', { name: 'Rivieren' }));
   await userEvent.click(screen.getByRole('button', { name: 'Verkennen' }));
@@ -31,7 +62,7 @@ test('instellingen blijven bewaard na terugkeren', async () => {
 
 test('Aanwijzen maakt een aanwijs-opdracht per geselecteerd onderdeel', async () => {
   const n = selectItems(defaultList, defaultSettings).length;
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Aanwijzen' }));
   expect(screen.getByText(`0 van ${n}`)).toBeInTheDocument();
   const p = screen.getByTestId('prompt');
@@ -42,7 +73,7 @@ test('Aanwijzen maakt een aanwijs-opdracht per geselecteerd onderdeel', async ()
 
 test('Benoemen start een benoem-opdracht met invoerveld', async () => {
   const n = selectItems(defaultList, defaultSettings).length;
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Benoemen' }));
   expect(screen.getByText(`0 van ${n}`)).toBeInTheDocument();
   expect(screen.getByTestId('prompt')).toHaveAttribute('data-mode', 'benoemen');
@@ -51,7 +82,7 @@ test('Benoemen start een benoem-opdracht met invoerveld', async () => {
 
 test('Oefen mijn fouten met verse voortgang: totaal is 2 x geselecteerde onderdelen', async () => {
   const n = selectItems(defaultList, defaultSettings).length;
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Oefen mijn fouten' }));
   expect(screen.getByText(`0 van ${2 * n}`)).toBeInTheDocument();
 });
@@ -62,7 +93,7 @@ test('niets te oefenen: knop uitgeschakeld met melding, klikken doet niets', asy
     for (const mode of ['aanwijzen', 'benoemen'] as const)
       for (let k = 0; k < 2; k++) p = recordAnswer(p, defaultList.id, i.id, mode, 'clean');
   localStorage.setItem('topo-trainer:v1', JSON.stringify(p));
-  render(<App />);
+  renderApp();
   const btn = screen.getByRole('button', { name: 'Oefen mijn fouten' });
   expect(btn).toBeDisabled();
   expect(screen.getByText('Alles geleerd — goed gedaan!')).toBeInTheDocument();
@@ -75,20 +106,20 @@ test('Oefen mijn fouten maakt opdrachten uit weakEntries', async () => {
   const items = selectItems(defaultList, defaultSettings);
   const n = weakEntries(emptyProgress(), defaultList, items).length;
   expect(n).toBeGreaterThan(0);
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Oefen mijn fouten' }));
   expect(screen.getByText(`0 van ${n}`)).toBeInTheDocument();
 });
 
 test('Stop in de quiz keert terug naar Home', async () => {
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Aanwijzen' }));
   await userEvent.click(screen.getByRole('button', { name: 'Stop' }));
   expect(screen.getByRole('heading', { name: /topo trainer/i })).toBeInTheDocument();
 });
 
 test('eerste antwoord wordt bewaard in de voortgang', async () => {
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Aanwijzen' }));
   const id = screen.getByTestId('prompt').getAttribute('data-item-id')!;
   fireEvent.click(screen.getByTestId(`hit-${id}`));
@@ -116,8 +147,8 @@ describe('ronde tot Resultaat', () => {
   };
   const riverCount = () => selectItems(defaultList, { categories: ['rivier'], plus: defaultSettings.plus }).length;
 
-  test('goede ronde: score en Naar start', () => {
-    render(<App />);
+  test('goede ronde: score en Naar start', async () => {
+    renderApp();
     onlyRivers();
     const n = riverCount();
     pick('Aanwijzen');
@@ -128,8 +159,8 @@ describe('ronde tot Resultaat', () => {
     expect(screen.getByRole('heading', { name: /topo trainer/i })).toBeInTheDocument();
   });
 
-  test('Oefen deze fouten start een ronde met precies de fouten', () => {
-    render(<App />);
+  test('Oefen deze fouten start een ronde met precies de fouten', async () => {
+    renderApp();
     onlyRivers();
     const n = riverCount();
     pick('Aanwijzen');
@@ -147,7 +178,7 @@ describe('ronde tot Resultaat', () => {
 });
 
 test('Voortgang opent en Terug keert naar Home', async () => {
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Voortgang' }));
   expect(screen.getByText(`0 van ${defaultList.items.length} geleerd`)).toBeInTheDocument();
   await userEvent.click(screen.getByRole('button', { name: 'Terug' }));
@@ -156,7 +187,7 @@ test('Voortgang opent en Terug keert naar Home', async () => {
 
 test('Wis voortgang in App leegt de opslag', async () => {
   localStorage.setItem('topo-trainer:v1', JSON.stringify(recordAnswer(emptyProgress(), defaultList.id, defaultList.items[0].id, 'aanwijzen', 'clean')));
-  render(<App />);
+  renderApp();
   await userEvent.click(screen.getByRole('button', { name: 'Voortgang' }));
   await userEvent.click(screen.getByRole('button', { name: 'Wis voortgang' }));
   await userEvent.click(screen.getByRole('button', { name: 'Ja, wis alles' }));

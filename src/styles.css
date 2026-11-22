@@ -67,3 +67,15 @@ button.big:not(.secondary):not(:disabled):active{background:var(--slds-color-acc
 .voortgang-name{font-weight:600}
 .streaks{font-size:.85rem;color:var(--slds-color-text-2);text-align:right}
 .mastered{color:var(--slds-color-success);font-size:1.6rem;font-weight:700}
+
+.home-subtitle{grid-column:1/-1;margin:-16px 0 0;font-size:1.3rem;color:var(--slds-color-text-2)}
+.onderwerp{height:100%;box-sizing:border-box;padding:32px 48px;display:flex;flex-direction:column;gap:16px;align-content:start}
+.onderwerp h1{margin:0;font-size:2.6rem}
+.onderwerp-vraag{margin:0;font-size:1.5rem}
+.onderwerp-lijst{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;max-width:720px}
+.onderwerp-knop{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:16px 24px;text-align:left;border-radius:var(--slds-radius-m)}
+.onderwerp-lijst button.big:not(.secondary):not(:disabled){background:var(--slds-color-surface-1);border-color:var(--slds-color-control-border);color:var(--slds-color-accent)}
+.onderwerp-lijst button.big:not(.secondary):not(:disabled):active{background:var(--slds-color-accent-container);border-color:var(--slds-color-accent)}
+.onderwerp-knop.laatste{outline:4px solid var(--slds-color-accent);outline-offset:2px}
+.onderwerp-titel{font-size:1.6rem;font-weight:600}
+.onderwerp-voortgang{font-size:1.1rem;font-weight:400;color:var(--slds-color-text-2)}

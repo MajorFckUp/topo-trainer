@@ -2,6 +2,7 @@
   "id": "europa-grz",
   "title": "Gebergten, rivieren en zeeën in Europa",
   "source": "Meander Topografie groep 7, p. 28–29",
+  "mapId": "europa",
   "items": [
     { "id": "alpen", "name": "Alpen", "category": "gebergte", "plus": false, "aliases": [], "mapFeatureId": "alpen" },
     { "id": "apennijnen", "name": "Apennijnen", "category": "gebergte", "plus": true, "aliases": [], "mapFeatureId": "apennijnen" },
